@@ -19,11 +19,16 @@ session_start();
 
     <!-- Custom styles for this template -->
     <link href="2-col-portfolio.css" rel="stylesheet">
-
+	
+	<!-- Animation CSS -->
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.css">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js "></script>
   </head>
 
   <body>
-
+	<script>
+		AOS.init();
+	</script>
     <!-- Navigation -->
     
     <header>
@@ -39,28 +44,24 @@ session_start();
           ?>
             <form action="login.php" class="form-inline" method="post">
               <nav class="my-2 my-md-0 mr-md-3">
-                <!-- <div class="form-group align-items-center"> -->
-                  <input class="form-control-sm mr-sm-2" type="text" placeholder="Username" aria-label="user" name="username">
-                  <input class="form-control-sm mr-sm-2" type="password" placeholder="Password" aria-label="password" name="password">
-                  <button class="btn btn-outline-light btn-sm mr-sm-2" type="submit">Login</button>
-                  <button class="btn btn-outline-success btn-sm" formaction="./signup.html" type="submit">Sign up</button>
-                <!-- </div> -->
+                <input class="form-control-sm mr-sm-2" type="text" placeholder="Username" aria-label="user" name="username">
+                <input class="form-control-sm mr-sm-2" type="password" placeholder="Password" aria-label="password" name="password">
+                <button class="btn btn-outline-light btn-sm mr-sm-2" type="submit">Login</button>
+                <button class="btn btn-outline-success btn-sm" formaction="./signup.html" type="submit">Sign up</button>
               </nav>
             </form>
            <?php 
             }else{
           ?>
-              <nav class="my-2 my-md-0 mr-md-3 align-middle">
-                <!-- <form class="form-inline"> -->
-                    <form class="form-group align-items-center" action="search.php" method="post">
+                  <form class="form-inline" action="search.php" method="post">
+                    <nav class="my-2 my-md-0 mr-md-3">
                       <button type="submit" style="visibility: hidden;">button</button>
-                      <input class="form-control-sm input-sm mr-sm-4" placeholder="Jordan, Yeezy, Nike, ..." name="name" type="text"/>
+                      <input class="form-control-sm input-sm mr-sm-4" id='ssmall' placeholder="Jordan, Yeezy, Nike, ..." name="name" type="text"/>
                       <a class="p-2 text-white align-middle" href="my_list.php"><u>Hi, <?php print($_SESSION['user']);?></u></a>
                       <a class="p-3 text-white align-middle" href="my_list.php">My Profile</a>
                       <button class="btn btn-outline-secondary btn-sm" formaction="logout.php" type="submit">Log out</button>
-                    </form>
-                <!-- </form> -->
-              </nav>
+                    </nav>
+                  </form>
           <?php } ?>
         </div>
       </div>
@@ -89,7 +90,7 @@ session_start();
           $img = $r["image"];
           // echo $img;
           print("
-            <div class=\"col-lg-6 portfolio-item\">
+            <div class=\"col-lg-6 portfolio-item \" data-aos=\"flip-left\">
             <a><img class=\"card-img-top\" src=\"{$img}\" alt=\"\"></a>
             </div>
             ");
@@ -111,9 +112,8 @@ session_start();
     <footer class="text-muted">
       <div class="container">
         <p class="float-right">
-          <a href="#">Back to top</a>
+          <a href="change.html">Change Password</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="#">Back to top</a>
         </p>
-        <br><br><br>
         <p>Sneaker Hunter is &copy; Zhenyu Gu, Yunyi Zhang, Luyu Gao, Ruilin Zhao</p>
       </div>
     </footer>

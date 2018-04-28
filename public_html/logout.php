@@ -3,6 +3,6 @@
         session_destroy();
 ?>
 <script language="javascript">
-alert('loged out');
+alert('logged out');
 document.location.href="/";
 </script>

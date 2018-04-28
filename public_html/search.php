@@ -9,23 +9,34 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    
     <title>Search Result</title>
 
     <!-- Bootstrap core CSS -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/css/bootstrap.min.css" rel="stylesheet">
 
+    <!-- Animation CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+  	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.css">
+  	<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.2.0/aos.js "></script>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js"></script>
+    <link href="search.css" rel="stylesheet">
+    <!-- fonts -->
+  	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" integrity="sha384-+d0P83n9kaQMCwj8F4RJB66tzIwOKmrdb46+porD/OvrJ+37WqIM7UoBtwHO6Nlg" crossorigin="anonymous">
+
+    
     <!-- Custom styles for this template -->
     <link href="../index.css" rel="stylesheet">
   </head>
 
   <body>
-
+	<script>
+		AOS.init();
+	</script>
     <header>
       <div class="navbar navbar-dark bg-dark box-shadow fixed-top">
         <div class="container d-flex">
           <a href="../index.php" class="navbar-brand d-flex align-items-center">
-            <img class="card-img-top img-responsive" src="../img0.png" alt="img0">
+            <img class="card-img-top img-responsive animated shake" src="../img0.png" alt="img0">
             <strong>SneakerHunter</strong>
           </a>
           <?php
@@ -45,23 +56,27 @@ session_start();
            <?php 
             }else{
           ?>
-              <nav class="my-2 my-md-0 mr-md-3 align-middle">
+             
                 <!-- <form class="form-inline"> -->
-                    <form class="form-group align-items-center" action="search.php" method="post">
+                  <form class="form-inline" action="search.php" method="post">
+                    <nav class="my-2 my-md-0 mr-md-3">
                       <button type="submit" style="visibility: hidden;">button</button>
-                      <input class="form-control-sm input-sm mr-sm-4" placeholder="Jordan, Yeezy, Nike, ..." name="name" type="text"/>
+                      <input class="form-control-sm input-sm mr-sm-4" id='ssmall' placeholder="Jordan, Yeezy, Nike, ..." name="name" type="text"/>
                       <a class="p-2 text-white align-middle" href="my_list.php"><u>Hi, <?php print($_SESSION['user']);?></u></a>
                       <a class="p-3 text-white align-middle" href="my_list.php">My Profile</a>
                       <button class="btn btn-outline-secondary btn-sm" formaction="logout.php" type="submit">Log out</button>
-                    </form>
+                    </nav>
+                  </form>
                 <!-- </form> -->
-              </nav>
+
           <?php } ?>
         </div>
       </div>
     </header>
 
     <main role="main">
+
+
 
       <section class="jumbotron text-center">
         <div class="container">
@@ -121,8 +136,8 @@ if ($num_rows > 0){
 		// print("&nbsp Recent max price: {$row['MAX(price)']}<br/>");
 		// print("&nbsp Recent min price: {$row['MIN(price)']}<br/>");
 		print("
-    			  <div class=\"col-md-4\">
-              <div class=\"card mb-4 box-shado\">
+    			  <div class=\"col-md-4\" data-aos=\"zoom-in-up\">
+              <div class=\"card mb-4 box-shado \">
                 <table class=\"text-center\" style=\"height: 180px;\">
                   <tbody>
                     <tr>
@@ -159,7 +174,11 @@ if ($num_rows > 0){
 		);
 		// print("<br/>");
 	}
-  print("</div>
+  print("
+		<a href=\"#\" id=\"myBtn\" title=\"Go to top\">
+			<i class=\"fas fa-angle-up fa-2x\"></i>
+		</a>
+		</div>
       </div>
       </div>");
 	$result->free();
@@ -176,7 +195,8 @@ else{
         </div>");
 }
 ?>
-    <div class="text-center">
+
+	<div class="text-center">
       <form action="index.php" method="post">
         <button class="btn btn-outline-secondary text-center" type="submit">Return</button>
       </form>
@@ -185,7 +205,7 @@ else{
     <footer class="text-muted">
       <div class="container">
         <p class="float-right">
-          <a href="change.php">Change Password</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="#">Back to top</a>
+          <a href="change.html">Change Password</a>&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp<a href="#">Back to top</a>
         </p>
         <p>Sneaker Hunter is &copy; Zhenyu Gu, Yunyi Zhang, Luyu Gao, Ruilin Zhao</p>
       </div>
@@ -196,5 +216,20 @@ else{
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/popper.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.0/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/holder/2.9.4/holder.min.js"></script>
+	<script>
+		window.onscroll = function() {scrollFunction()};
+
+		function scrollFunction() {
+			if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+				document.getElementById("myBtn").style.display = "block";
+			} else {
+				document.getElementById("myBtn").style.display = "none";
+			}
+		}
+
+		function topFunction() {
+			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		}
+	</script>
   </body>
 </html>
