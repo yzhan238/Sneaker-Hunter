@@ -69,6 +69,17 @@ def sift_similarity(d1, d2):
 	else:
 		return 0.
 
+import numpy as np
+
+def retrieve(pid, mat, k=50):
+	sift, lbp, color = mat
+	sifts = np.argpartition(sift[pid], k)
+	lbps = np.argpartition(lbp[pid], k)
+	colors = np.argpartition(color[pid], k)
+	sifts = [x for x in enumerate(sifts)]
+	lbps = [x for x in enumerate(lbps)]
+	colors = [x for x in enumerate(colors)]
+
 hist = None
 with open('hist.pkl', 'rb') as f:
 	hist = pickle.load(f)
@@ -80,8 +91,6 @@ with open('sift.pkl', 'rb') as f:
 lbp = None
 with open('lbp.pkl', 'rb') as f:
 	lbp = pickle.load(f)
-
-dim = 982
 
 h = np.zeros((dim, dim))
 s = np.zeros((dim, dim))
@@ -105,23 +114,48 @@ with open('sift_sim.pkl', 'wb') as f:
 with open('lbp_dis.pkl', 'wb') as f:
 	pickle.dump(llbp, f)
 
+# h = None
+# with open('hist_dis.pkl', 'rb') as f:
+# 	h = pickle.load(f)
+
+# s = None
+# with open('sift_sim.pkl', 'rb') as f:
+# 	s = pickle.load(f)
+
+# llbp = None
+# with open('lbp_dis.pkl', 'rb') as f:
+# 	llbp = pickle.load(f)
+
 dic ={}
 with open('stockx_images.pkl', 'rb') as f:
 	dic=pickle.load(f)
+
 lookup = {}
 for k,v in dic.items():
 	lookup[v[1]] = k
 
+dim = 982
 result = {}
 for k in range(dim):
 	hh = sorted([i for i in range(dim) if i != k], key=lambda x:h[k][x])
 	ss = sorted([i for i in range(dim) if i != k], key=lambda x:s[k][x], reverse = True)
 	ll = sorted([i for i in range(dim) if i != k], key=lambda x:llbp[k][x])
 	r = None
+	idx = None
 	for i in range(1,180):
 		r = set(hh[:i*5]).intersection(set(ll[:i*10])).intersection(set(ss[:i*10]))
 		if len(r) > 5:
+			idx = i
 			break
-	result[lookup[k]] = [lookup[i] for i in r]
-with open('recom.pkl', 'wb') as f:
+	mrr = {rr:0. for rr in r}
+	for i in range(idx*10):
+		if hh[i] in mrr:
+			mrr[hh[i]] += 1. / (i + 1)
+		if ss[i] in mrr:
+			mrr[ss[i]] += 1. / (i + 1)
+		if ll[i] in mrr:
+			mrr[ll[i]] += 1. / (i + 1)
+	mrrr = sorted([k for k,v in mrr.items()], key = lambda x: mrr[x], reverse = True)
+	result[lookup[k]] = [(lookup[mrrr[i]], i) for i in range(len(mrrr))]
+with open('recom_rank.pkl', 'wb') as f:
 	pickle.dump(result, f)
